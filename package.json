@@ -1,0 +1,24 @@
+{
+  "name": "session-8",
+  "version": "1.0.0",
+  "description": "http://daniel.deverell.com/mean-fall-2016/ng-animate-sample/#/",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mean-fall-2016/session-7.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mean-fall-2016/session-7/issues"
+  },
+  "homepage": "https://github.com/mean-fall-2016/session-7#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.5"
+  }
+}
