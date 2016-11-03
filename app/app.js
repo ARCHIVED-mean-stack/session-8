@@ -2,17 +2,13 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
 app.use(bodyParser.json())
+app.use(express.static('static'))
+var Post = require('./models/post')
 
-app.get('/api/posts', function (req, res) {
-  res.json([
-    {
-      label: 'January',
-      value: 54
-    }
-  ])
+app.get('/', function (req, res) {
+  res.sendfile('./layouts/index.html')
 })
 
-var Post = require('./models/post')
 app.post('/api/posts', function (req, res, next) {
   var post = new Post({
     label: req.body.label,
