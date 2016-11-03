@@ -366,6 +366,84 @@ $ curl -i -X DELETE http://localhost:3001/musicians/535feac1cc539500000a209f
 ```
 
 
+##Building a Front End for Our API
+
+Add a static directory for our assets to server.js
+
+`app.use(express.static('static'))`
+
+Add a layouts directory and into it `index.html`
+
+```html
+<!doctype html>
+<html ng-app='pirateApp'>
+
+<head>
+	<title>AngularJS Data Viz</title>
+
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+	<script src="js/app.js"></script>
+
+</head>
+
+<body>
+<h1>test</h1>
+<img src="img/temp.png">
+</body>
+</html>
+```
+
+Add this route to routes.js:
+
+```js
+app.get('/', function(req, res) {
+    res.sendfile('./layouts/index.html')
+})
+```
+
+Create css, js, and img folders in static. 
+
+Populate the js folder with app.js:
+
+```js
+console.log('made it');
+angular.module('pirateApp', []);
+```
+
+The css folder with styles.css:
+
+```
+* {
+    color: red;
+}
+```
+
+And add a randon temp.png image to the img folder.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##Visualisation
 
