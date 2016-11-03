@@ -422,7 +422,23 @@ The css folder with styles.css:
 And add a randon temp.png image to the img folder.
 
 
+```
+angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
+    $http.get('http://rest-service.guides.spring.io/greeting').
+        then(function (response) {
+            $scope.greeting = response.data;
+        });
+});
+```
 
+
+```
+<body ng-controller="Hello">
+    <h1>Pirates</h1>
+    <p>The ID is {{greeting.id}}</p>
+    <p>The content is {{greeting.content}}</p>
+</body>
+```
 
 
 
