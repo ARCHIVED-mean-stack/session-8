@@ -8,12 +8,22 @@
 // console.log('Server running at http://localhost:3001/');
 
 
-var express = require('express');
+// var express = require('express');
+// var app = express();
+
+// app.get('/', function(req, res) {
+//   res.send('Hello Seattle\n');
+// });
+
+// app.listen(3001);
+// console.log('Server running at http://localhost:3001/');
+
+var express = require('express'),
+  fs = require('fs');
+ 
 var app = express();
+ 
+require('./routes')(app);
 
-app.get('/', function(req, res) {
-  res.send('Hello Seattle\n');
-});
-
-app.listen(3001);
-console.log('Server running at http://localhost:3001/');
+app.listen(3000);
+console.log('Listening on port 3000...');
