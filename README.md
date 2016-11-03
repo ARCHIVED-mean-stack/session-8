@@ -2,6 +2,47 @@
 
 http://bigspaceship.github.io/blog/2014/05/14/how-to-create-a-rest-api-with-node-dot-js/
 
+server.js
+
+```
+var http = require('http');
+
+http.createServer(function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Ahoy there matey\n');
+}).listen(3001);
+
+console.log('Server running at http://localhost:3001/');
+```
+package,json
+```
+{
+  "name": "noderest",
+  "description": "REST API with Node",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  }
+}
+```
+npm install
+
+edit server.js
+
+```
+var express = require('express');
+var app = express();
+
+app.get('/', function(req, res) {
+  res.send('Hello Seattle\n');
+});
+
+app.listen(3001);
+console.log('Server running at http://localhost:3001/');
+```
+
+
 ##Visualisation
 
 ```
