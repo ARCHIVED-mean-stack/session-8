@@ -9,6 +9,13 @@ app.get('/', function (req, res) {
   res.sendfile('./layouts/index.html')
 })
 
+app.get('/api/posts', function (req, res, next) {
+  Post.find(function (err, posts) {
+    if (err) { return next(err) }
+    res.json(posts)
+  })
+})
+
 app.post('/api/posts', function (req, res, next) {
   var post = new Post({
     label: req.body.label,

@@ -1,5 +1,7 @@
 #MEAN Session Eight
 
+http://bigspaceship.github.io/blog/2014/05/14/how-to-create-a-rest-api-with-node-dot-js/
+
 ##Visualisation
 
 ```
@@ -14,6 +16,8 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
 ```
+
+`https://expressjs.com/en/starter/static-files.html`
 
 `https://expressjs.com/en/starter/static-files.html`
 
