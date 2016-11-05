@@ -363,6 +363,118 @@ $ curl -i -X DELETE http://localhost:3001/musicians/535feac1cc539500000a209f
 ```
 
 
+##Building a Front End for Our API
+
+Add a static directory for our assets to server.js
+
+`app.use(express.static('static'))`
+
+Add a layouts directory and into it `index.html`
+
+```html
+<!doctype html>
+<html ng-app='pirateApp'>
+
+<head>
+	<title>AngularJS Data Viz</title>
+
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+	<script src="js/app.js"></script>
+
+</head>
+
+<body>
+<h1>test</h1>
+<img src="img/temp.png">
+</body>
+</html>
+```
+
+Add this route to routes.js:
+
+```js
+app.get('/', function(req, res) {
+    res.sendfile('./layouts/index.html')
+})
+```
+
+Create css, js, and img folders in static. 
+
+Populate the js folder with app.js:
+
+```js
+console.log('made it');
+angular.module('pirateApp', []);
+```
+
+The css folder with styles.css:
+
+```
+* {
+    color: red;
+}
+```
+
+And add a randon temp.png image to the img folder.
+
+
+```
+angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
+    $http.get('http://rest-service.guides.spring.io/greeting').
+        then(function (response) {
+            $scope.greeting = response.data;
+        });
+});
+```
+
+
+```html
+<body ng-controller="Hello">
+    <h1>Pirates</h1>
+    <p>The ID is {{greeting.id}}</p>
+    <p>The content is {{greeting.content}}</p>
+</body>
+```
+
+###Angular Routes vs Express Routes
+
+
+```html
+<body ng-controller="Test">
+	<h1>Pirates</h1>
+	<div ng-repeat="pirat in pirata">
+		<p>Pirate name: {{pirat.name}}</p>
+		<p>Pirate vessel {{pirat.vessel}}</p>
+	</div>
+</body>
+```
+
+
+```js
+app.get('/*', function (req, res, next) {
+	res.sendfile('./layouts/index.html')
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##Visualisation
 
