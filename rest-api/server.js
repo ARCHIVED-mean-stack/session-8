@@ -11,18 +11,13 @@ require('./routes')(app);
 
 mongoose.connect(mongoUri);
 
-db.on('error', function() {
+db.on('error', function () {
     throw new Error('unable to connect to database at ' + mongoUri);
 });
 
 app.use(express.static('static'))
 
 app.use(bodyParser.json())
-// app.configure(function() {
-//     app.use(express.bodyParser());
-// });
-
-
 
 app.listen(3001);
 console.log('Listening on port 3001...');

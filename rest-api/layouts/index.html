@@ -2,18 +2,23 @@
 <html ng-app='pirateApp'>
 
 <head>
-    <title>AngularJS Data Viz</title>
+	<!--<base href="/" />-->
+	<title>AngularJS Data Viz</title>
 
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://code.angularjs.org/1.5.8/angular.js"></script>
-    <script src="js/app.module.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
+	<!--<script src="https://code.angularjs.org/1.5.8/angular-min.js"></script>-->
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/app.module.js"></script>
 
 </head>
 
 <body ng-controller="Hello">
-    <h1>Pirates</h1>
-    <p>The ID is {{greeting.id}}</p>
-    <p>The content is {{greeting.content}}</p>
+	<h1>Pirates</h1>
+	<div ng-repeat="pirat in pirata">
+		<p>Pirate name: {{pirat.name}}</p>
+		<p>Pirate vessel {{pirat.vessel}}</p>
+	</div>
 </body>
 
 </html>

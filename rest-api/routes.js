@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
     var pirates = require('./controllers/pirates');
     app.get('/pirates', pirates.findAll);
     app.get('/pirates/:id', pirates.findById);
@@ -8,9 +8,7 @@ module.exports = function(app) {
     // added to get data in
     app.get('/import', pirates.import);
 
-
-    app.get('/', function(req, res) {
+    app.get('/*', function (req, res, next) {
         res.sendfile('./layouts/index.html')
     })
-
 }

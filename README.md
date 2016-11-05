@@ -429,7 +429,7 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 ```
 
 
-```
+```html
 <body ng-controller="Hello">
     <h1>Pirates</h1>
     <p>The ID is {{greeting.id}}</p>
@@ -437,7 +437,25 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 </body>
 ```
 
+###Angular Routes vs Express Routes
 
+
+```html
+<body ng-controller="Test">
+	<h1>Pirates</h1>
+	<div ng-repeat="pirat in pirata">
+		<p>Pirate name: {{pirat.name}}</p>
+		<p>Pirate vessel {{pirat.vessel}}</p>
+	</div>
+</body>
+```
+
+
+```js
+app.get('/*', function (req, res, next) {
+	res.sendfile('./layouts/index.html')
+})
+```
 
 
 
