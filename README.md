@@ -119,12 +119,12 @@ Update findAll's definition' to the function below:
 
 ```js
 exports.findAll = function(req, res){
-  res.send([{
-    "id": 1,
-    "name": "Max",
-    "vessel": "HMS Booty",
-    "weapon": "sword"
-  }]);
+	res.send([{
+		"id": 1,
+		"name": "Max",
+		"vessel": "HMS Booty",
+		"weapon": "sword"
+	}]);
 };
 ```
 
