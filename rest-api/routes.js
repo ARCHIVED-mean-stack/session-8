@@ -5,7 +5,11 @@ module.exports = function (app) {
     app.post('/pirates', pirates.add);
     app.put('/pirates/:id', pirates.update);
     app.delete('/pirates/:id', pirates.delete);
-
+    // added to support import of data
     app.get('/import', pirates.import);
+
+    app.get('/*', function (req, res, next) {
+        res.sendfile('./layouts/index.html')
+    })
 
 }
