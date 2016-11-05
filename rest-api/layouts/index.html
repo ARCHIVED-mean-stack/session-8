@@ -6,14 +6,21 @@
 
 	<link rel="stylesheet" href="css/styles.css">
 	<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-route.min.js"></script>
+	<script src="js/app.module.js"></script>
 	<!--<script src="js/angular.js"></script>
 	<script src="js/angular-route.js"></script>
-	<script src="js/app.module.js"></script>-->
+	-->
 
 </head>
 
-<body ng-controller="Hello">
+<body ng-controller="PirateAppController">
 	<h1>Pirates</h1>
+	<ul ng-repeat="pirate in pirates">
+		<li>
+			{{ pirate.name }}
+		</li>
+	</ul>
 </body>
 
 </html>

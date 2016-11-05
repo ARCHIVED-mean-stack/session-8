@@ -440,14 +440,26 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 
 ###Angular Routes vs Express Routes
 
+```js
+angular.module('pirateApp', [])
+    .controller('PirateAppController', function ($scope, $http) {
+        $http.get('/pirates').
+            then(function (response) {
+                $scope.pirates = response.data;
+                console.log($scope.pirates);
+            });
+    });
+```
+
 
 ```html
-<body ng-controller="Test">
+<body ng-controller="PirateAppController">
 	<h1>Pirates</h1>
-	<div ng-repeat="pirat in pirata">
-		<p>Pirate name: {{pirat.name}}</p>
-		<p>Pirate vessel {{pirat.vessel}}</p>
-	</div>
+	<ul ng-repeat="pirate in pirates">
+		<li>
+			test
+		</li>
+	</ul>
 </body>
 ```
 

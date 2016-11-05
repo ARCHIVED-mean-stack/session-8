@@ -1,15 +1,11 @@
-var appapp = angular.module('pirateApp', ['ngRoute'])
-    .controller('Hello', function ($scope, $http) {
+angular.module('pirateApp', [])
+    .controller('PirateAppController', function ($scope, $http) {
         $http.get('/pirates').
             then(function (response) {
-                $scope.pirata = response.data;
-                // console.log($scope.pirata);
+                $scope.pirates = response.data;
+                console.log($scope.pirates);
             });
     });
-
-// appapp.controller('Test', function ($scope, $http) {
-//     $scope.temp = 'temp';
-// })
 
 
 // appapp.config(['$locationProvider', '$routeProvider',
