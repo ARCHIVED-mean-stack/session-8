@@ -1,8 +1,6 @@
 #MEAN Session Eight
 
-Node server
-
-server.js
+Node server.js
 
 ```js
 var http = require('http');
@@ -15,22 +13,11 @@ http.createServer(function (req, res) {
 console.log('Server running at http://localhost:3001/');
 ```
 
-package.json
+`$ npm init`
 
-```
-{
-  "name": "noderest",
-  "description": "REST API with Node",
-  "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "express": "3.x"
-  }
-}
-```
-npm install
+`$ npm install express`
 
-edit server.js for express:
+Edit server.js for express:
 
 ```
 var express = require('express');
@@ -44,14 +31,7 @@ app.listen(3001);
 console.log('Server running at http://localhost:3001/');
 ```
 
-Get a sense of what a response looks like:
-
-```js
-app.get('/', function (req, res) {
-    res.send('Hello Seattle\n');
-    console.dir(res)
-});
-```
+`npm install --save-dev nodemon`
 
 REST API
 * A URL route schema to map requests to app actions
@@ -70,11 +50,19 @@ Predefined URL paths your API responds to. Think of each Route as listening to t
 
 ###GET
 
-This example of routing handles all GET Requests. The URL path is the root of the site, the homepage. The handling method is an anonymous function, and responds with plain text:
+This example of routing handles all GET Requests. The URL path is the root of the site, the handling method is an anonymous function, and the response plain text:
 
 ```js
 app.get('/', function(req, res) {
     res.send('Return JSON or HTML View');
+});
+```
+A peak inside the response:
+
+```js
+app.get('/', function (req, res) {
+    res.send('Ahoy\n');
+    console.dir(res);
 });
 ```
 
@@ -82,19 +70,21 @@ app.get('/', function(req, res) {
 
 ```
 app.get('/pirate/:name', function(req, res) {
-
-   // Get /pirate/Matt
    console.log(req.params.name)
-   // => Matt
+});
+```
 
-   res.send('{"id": 1,"name":"Matt",
-     "vessel":"HMS Brawler"}');
+And run `http://localhost:3001/pirate/barney`
+
+```
+app.get('/pirate/:name', function(req, res) {
+   res.send('{"id": 1,"name":"Matt", "vessel":"HMS Brawler"}');
 });
 ```
 
 ###Routes
 
-Add routes.js:
+Add routes.js to /app:
 
 ```js
 module.exports = function (app) {
@@ -107,11 +97,15 @@ module.exports = function (app) {
 }
 ```
 
-Here we are working with a pirate data model. We've created a pirates controller and placed all our Request event handling methods inside the controller. The main REST HTTP actions are handled. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly.
+We've created a pirates controller and placed all our Request event handling methods inside the controller. 
+
+The main REST HTTP actions are handled. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly.
 
 ###Controllers
 
-To keep code organized, create a folder called controllers inside your project directory. Create a new file inside of that called pirates.js. We'll add each request handling method for pirates data to this file one by one. For now add these placeholders to pirates.js so we can restart the server without errors:
+Create a folder called controllers inside /app. 
+
+Create a new file inside of that called pirates.js. We'll add each request handling method for pirates data to this file one by one. For now add these placeholders to pirates.js so we can restart the server without errors:
 
 ```js
 exports.findAll = function () { };
