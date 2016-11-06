@@ -378,17 +378,16 @@ Add a layouts directory and into it `index.html`:
 
 <head>
 	<title>AngularJS Pirates</title>
-
 	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-animate.js"></script>
 	<script src="js/app.js"></script>
-
 </head>
 
 <body>
-<h1>test</h1>
-<img src="img/temp.png">
+	<h1>test</h1>
+	<img src="img/temp.png">
 </body>
 </html>
 ```
@@ -458,13 +457,61 @@ angular.module('pirateApp', [])
 ```html
 <body ng-controller="PirateAppController">
 	<h1>Pirates</h1>
-	<ul ng-repeat="pirate in pirates">
-		<li>
+	<ul>
+		<li ng-repeat="pirate in pirates">
 			{{ pirate.name }}
+			<span ng-click="deletePirate($index)">X</span>
 		</li>
 	</ul>
 </body>
 ```
+
+
+```
+$scope.deletePirate = function(index) {
+	$scope.pirates.splice(index, 1);
+}
+```
+
+
+```
+<ul>
+	<li  ng-repeat="pirate in pirates">
+		{{ pirate.name }}
+		<span ng-click="deletePirate($index)">X</span>
+	</li>
+</ul>
+```
+
+This works but may be less than optimal:
+
+```
+<ul>
+	<li ng-repeat="pirate in pirates">
+		{{ pirate.name }}
+		<span ng-click="deletePirate(pirate._id)">X</span>
+	</li>
+</ul>
+```
+
+```
+$scope.deletePirate = function(pid) {
+	$http.delete('/pirates/' + pid);
+}
+```
+
+But this has no effect on $scope
+
+```
+$scope.deletePirate = function(index, pid) {
+		$http.delete('/pirates/' + pid)
+		.success(function(){
+			$scope.pirates.splice(index, 1);
+		})
+	
+	}
+```
+
 
 ###Angular Routes vs Express Routes
 
