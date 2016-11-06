@@ -157,13 +157,17 @@ Ask NPM to install this dependency for you, and update your package.json file wi
 
 `npm install mongoose --save-dev`
 
+[Quickstart guide](http://mongoosejs.com/docs/) for Mongoose.
+
+`npm install body-parser --save-dev`
+
 Update server.js:
 
 
 ```js
 var express = require('express');
 var mongoose = require('mongoose');
-var fs = require('fs');
+// var fs = require('fs');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoUri = 'mongodb://localhost/rest-api';
@@ -178,8 +182,6 @@ db.on('error', function () {
     throw new Error('unable to connect to database at ' + mongoUri);
 });
 
-app.use(express.static('static'))
-
 app.use(bodyParser.json())
 
 app.listen(3001);
@@ -191,6 +193,8 @@ We're requiring the Mongoose module which will communicate with Mongo for us. Th
 ###Define Data Models
 
 Create a new folder called models and add a new file pirate.js for our Pirate Model.
+
+Require Mongoose into this file, and create a new Schema object:
 
 ```js
 var mongoose = require('mongoose'),
@@ -205,9 +209,13 @@ var PirateSchema = new Schema({
 mongoose.model('Pirate', PirateSchema);
 ```
 
-Require Mongoose into this file, and create a new Schema object. This schema helps Mongoose make sure it's getting and setting the right and well-formed data from and to the Mongo collection. Our schema has three String properties which define a Pirate object. The last line creates the Pirate model object, with built in Mongo interfacing methods. We'll refer to this Pirate object in other files.
+ This schema makes sure we're getting and setting the right and well-formed data to and from the Mongo collection. Our schema has three String properties which define a Pirate object. 
+ 
+ The last line creates the Pirate model object, with built in Mongo interfacing methods. We'll refer to this Pirate object in other files.
 
-Update controllers/pirates.js to require Mongoose, so we can create an instance of our Pirate model to work with. Update findAll() to query Mongo with the find() data model method.
+Update controllers/pirates.js to require Mongoose, so we can create an instance of our Pirate model to work with. 
+
+Update findAll() to query Mongo with the find() data model method.
 
 ```js
 var mongoose = require('mongoose'),
@@ -224,21 +232,23 @@ exports.update = function () { };
 exports.delete = function () { };
 ```
 
-Passing find() {} means we are not filtering data by any of its properties, so please return all of it. Once Mongoose looks up the data it returns an error message and a result set. Use res.send() to return the raw results.
+Passing find() {} means we are not filtering data by any of its properties and so to return all of it. 
+
+Once Mongoose looks up the data it returns an error message and a result set. Use res.send() to return the raw results.
 
 ###Start Mongoose
 
-Restart the server. Visit the API endpoint for all pirates localhost:3001/pirates. You'll get JSON data back, in the form of an empty array.
+Restart the server. Visit the API endpoint for all pirates `localhost:3001/pirates`. You'll get JSON data back, in the form of an empty array.
 
 ###Data
 
 Since I didn't feel like messing with Mongo command-line, I decided to import pirate data with our REST API. Add a new route endpoint to routes.js.
 
 ```js
-app.get('/import', musicians.import);
+app.get('/import', pirates.import);
 ```
 
-Now to define the import method in our Pirates Controller controllers/pirates.js:
+Now to define the import method in our Pirates Controller `controllers/pirates.js`:
 
 ```js
 exports.import = function (req, res) {
@@ -254,13 +264,13 @@ exports.import = function (req, res) {
 };
 ```
 
-This import method adds four documents out of the hard-coded JSON to a pirates collection. The Pirate model is referenced here to call its create method. create() takes one or more documents in JSON form, and a callback to run on completion. If an error occurs, Terminal will spit the error out, and the request will timeout in the browser. On success, 202 Accepted HTTP status code is returned to the browser. Restart your node server and visit this new endpoint to import data.
+This import method adds four documents from the JSON to a pirates collection. The Pirate model is referenced here to call its create method. create() takes one or more documents in JSON form, and a callback to run on completion. If an error occurs, Terminal will spit the error out, and the request will timeout in the browser. On success, 202 Accepted HTTP status code is returned to the browser. Restart your node server and visit this new endpoint to import data.
 
-Test at: `localhost:3001/import/`
+`localhost:3001/import/`
 
 ###Returning Data
 
-Now visit your pirates/ endpoint to view all new pirates data. You'll see an array of JSON objects, each in the defined schema, with an additional generated unique private _id and internal __v version key. 
+Now visit your pirates/ endpoint to view all the new pirates data. You'll see an array of JSON objects, each in the defined schema, with an additional generated unique private _id and internal __v version key. 
 
 ####Find By id
 
@@ -275,7 +285,9 @@ exports.findById = function (req, res) {
 };
 ```
 
-This route's path uses a parameter pattern for id /pirates/:id which we can refer to in req. Pass this id to Mongoose to look up and return just one document. Restart the server. At your find all endpoint, copy one of the super long ids and paste it in at the end of the current url in the browser. Refresh your browser. You'll get a single JSON object for that one pirate's document. Nice.
+This route's path uses a parameter pattern for id /pirates/:id which we can refer to in req. Pass this id to Mongoose to look up and return just one document. Restart the server. At your find all endpoint, copy one of the super long ids and paste it in at the end of the current url in the browser. Refresh your browser. You'll get a single JSON object for that one pirate's document.
+
+e.g. `http://localhost:3001/pirates/581ca420f13de28c1776bbec`
 
 ####Update
 
@@ -308,10 +320,8 @@ The model's update() takes three parameters:
 PUT actions are not easy to test in the browser, so I used cURL in Terminal after restarting the server.
 
 ```
-$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/pirates/535fe13ac688500000c2b28b
+$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/pirates/581ca420f13de28c1776bbec
 ```
-
-`581b8ffeed13e403487fe1a4`
 
 This sends a JSON Content-Type PUT request to our update endpoint. That JSON object is the request body, and the long hash at the end of the URL is the id of the pirate we want to update. Terminal will output a JSON object of the response to the cURL request and Updated 1 pirates from our callback function.
 
@@ -330,7 +340,7 @@ exports.add = function (req, res) {
 }
 ```
 
-Restart the server. Use cURL to POST to the add endpoint with the full Musician JSON as the request body.
+Restart the server. Use cURL to POST to the add endpoint with the full Pirate JSON as the request body.
 
 ```
 $ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "Jean Lafitte", "vessel": "Barataria Bay", "weapon":"curses"}' http://localhost:3001/pirates
@@ -354,27 +364,24 @@ exports.delete = function (req, res) {
 Restart, and check it out with:
 
 ```
-$ curl -i -X DELETE http://localhost:3001/musicians/535feac1cc539500000a209f
+$ curl -i -X DELETE http://localhost:3001/pirates/535feac1cc539500000a209f
 ```
 
 
 ##Building a Front End for Our API
 
-Add a static directory for our assets to server.js
-
-`app.use(express.static('static'))`
-
-Add a layouts directory and into it `index.html`
+Add a layouts directory and into it `index.html`:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html ng-app='pirateApp'>
 
 <head>
-	<title>AngularJS Data Viz</title>
+	<title>AngularJS Pirates</title>
 
 	<link rel="stylesheet" href="css/styles.css">
-	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-animate.js"></script>
 	<script src="js/app.js"></script>
 
 </head>
@@ -393,6 +400,10 @@ app.get('/', function(req, res) {
     res.sendfile('./layouts/index.html')
 })
 ```
+
+Add a static directory for our assets to server.js
+
+`app.use(express.static('static'))`
 
 Create css, js, and img folders in static. 
 
@@ -432,8 +443,6 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 </body>
 ```
 
-###Angular Routes vs Express Routes
-
 ```js
 angular.module('pirateApp', [])
     .controller('PirateAppController', function ($scope, $http) {
@@ -451,12 +460,13 @@ angular.module('pirateApp', [])
 	<h1>Pirates</h1>
 	<ul ng-repeat="pirate in pirates">
 		<li>
-			test
+			{{ pirate.name }}
 		</li>
 	</ul>
 </body>
 ```
 
+###Angular Routes vs Express Routes
 
 ```js
 app.get('/*', function (req, res, next) {
