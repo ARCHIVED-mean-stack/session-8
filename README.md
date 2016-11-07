@@ -31,12 +31,12 @@ app.listen(3001);
 console.log('Server running at http://localhost:3001/');
 ```
 
-REST API
+###Rest API
 * A URL route schema to map requests to app actions
-* A Controller to handle each action
+* With a Controller to handle each action
 * Data to respond with
 * Place to store the data
-* Interface to access and change data
+* An interface to access and change data
 
 ###Routes
 
@@ -50,6 +50,8 @@ Predefined URL paths your API responds to. Think of each Route as listening to t
 
 This example of routing handles all GET Requests. The URL path is the root of the site, the handling method is an anonymous function, and the response plain text:
 
+Sample: 
+
 ```js
 app.get('/', function(req, res) {
     res.send('Return JSON or HTML View');
@@ -59,12 +61,24 @@ A peak inside the response:
 
 ```js
 app.get('/', function (req, res) {
-    res.send('Ahoy\n');
+    res.send('Ahoy there\n');
     console.dir(res);
 });
 ```
 
-###Request
+Note that the server needs to be restarted in order for us to see the results. 
+
+Install nodemon:
+
+`sudo npm install -g nodemon`
+
+`sudo npm install --save-dev nodemon`
+
+Run the app using `nodemon server.js` and make a change to res.send in server.js. Note the app restarts. Refresh the browser and note the res (response) object being dumped into the console.
+
+You wil need to keep an eye on the nodemon process during this exercise to see if it is hanging.
+
+###GET Requests
 
 ```
 app.get('/pirate/:name', function(req, res) {
@@ -72,13 +86,17 @@ app.get('/pirate/:name', function(req, res) {
 });
 ```
 
-And run `http://localhost:3001/pirate/barney`
+And run `http://localhost:3001/pirate/barney` noting the console's output.
+
+Edit:
 
 ```
 app.get('/pirate/:name', function(req, res) {
    res.send('{"id": 1,"name":"Matt", "vessel":"HMS Brawler"}');
 });
 ```
+
+You can see the json in the view.
 
 ###Routes
 
@@ -87,17 +105,17 @@ Add routes.js to /app:
 ```js
 module.exports = function (app) {
     var pirates = require('./controllers/pirates');
-    app.get('/pirates', pirates.findAll);
-    app.get('/pirates/:id', pirates.findById);
-    app.post('/pirates', pirates.add);
-    app.put('/pirates/:id', pirates.update);
-    app.delete('/pirates/:id', pirates.delete);
+    app.get('/api/pirates', pirates.findAll);
+    app.get('/api/pirates/:id', pirates.findById);
+    app.post('/api/pirates', pirates.add);
+    app.put('/api/pirates/:id', pirates.update);
+    app.delete('/api/pirates/:id', pirates.delete);
 }
 ```
 
-We've created a pirates controller and placed all our Request event handling methods inside the controller. 
+All the main elements of a REST application - GET, POST, PUT, DELETE - http actions are accounted for here. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly - prefixing them with `api/` in order to differentiate them from other routes we may create within Angular.
 
-The main REST HTTP actions are handled. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly.
+Note the require statement. We'll create a pirates controller and placed all our Request event handling methods inside the it. 
 
 ###Controllers
 
@@ -130,9 +148,7 @@ Update server.js to require our routes file. The .js file extension can be omitt
 
 ```js
 var express = require('express');
-
-var app = express();
-
+...
 require('./routes')(app);
 
 app.listen(3001);
@@ -141,7 +157,6 @@ console.log("Lootin\' on port 3001...");
 
 Navigate to `localhost:3001/pirates`
 
-`npm install --save-dev nodemon`
 
 ###Mongo
 
@@ -153,16 +168,20 @@ Run mongod in another Terminal tab if it's not running already.
 
 A [Mongo Driver](http://mongoosejs.com).
 
-Ask NPM to install this dependency for you, and update your package.json file with this dependency for you with the --save-dev option.
+Use NPM to install this dependency and update your package.json file.
 
 `npm install mongoose --save-dev`
 
 [Quickstart guide](http://mongoosejs.com/docs/) for Mongoose.
 
+###Body Parser
+
+[Body Parser](https://www.npmjs.com/package/body-parser) parses and places incoming requests in a `req.body` property so our handlers can use them.
+
 `npm install body-parser --save-dev`
 
-Update server.js:
 
+###Update server.js:
 
 ```js
 var express = require('express');
@@ -173,7 +192,7 @@ var bodyParser = require('body-parser')
 var mongoUri = 'mongodb://localhost/rest-api';
 var db = mongoose.connection;
 
-require('./models/pirate');
+//require('./models/pirate');
 require('./routes')(app);
 
 mongoose.connect(mongoUri);
@@ -188,7 +207,16 @@ app.listen(3001);
 console.log('Listening on port 3001...');
 ```
 
-We're requiring the Mongoose module which will communicate with Mongo for us. The mongoUri is a location to the Mongo DB that Mongoose will create if there is not one there already. We added an error handler there to help debug issues connecting to Mongo collections. We also configured Express to parse requests' bodies (we'll use that for POST requests). Lastly, we require the pirate model which we'll make next.
+- We're requiring the Mongoose module which will communicate with Mongo for us. 
+
+- The mongoUri is a location to the Mongo DB that Mongoose will create if there is not one there already. 
+
+- We added an error handler there to help debug issues connecting to Mongo collections. 
+
+- We configured Express to parse requests' bodies (we'll use that for POST requests).
+
+- Lastly, we require the pirate model which we'll make next.
+
 
 ###Define Data Models
 
@@ -209,7 +237,7 @@ var PirateSchema = new Schema({
 mongoose.model('Pirate', PirateSchema);
 ```
 
- This schema makes sure we're getting and setting the right and well-formed data to and from the Mongo collection. Our schema has three String properties which define a Pirate object. 
+ This schema makes sure we're getting and setting well-formed data to and from the Mongo collection. Our schema has three String properties which define a Pirate object. 
  
  The last line creates the Pirate model object, with built in Mongo interfacing methods. We'll refer to this Pirate object in other files.
 
@@ -238,17 +266,17 @@ Once Mongoose looks up the data it returns an error message and a result set. Us
 
 ###Start Mongoose
 
-Restart the server. Visit the API endpoint for all pirates `localhost:3001/pirates`. You'll get JSON data back, in the form of an empty array.
+Restart the server and visit the API endpoint for all pirates `localhost:3001/api/pirates`. You'll get JSON data back, in the form of an empty array.
 
 ###Data
 
-Since I didn't feel like messing with Mongo command-line, I decided to import pirate data with our REST API. Add a new route endpoint to routes.js.
+Rather than use the Mongo command-line, let's import pirate data with our REST API. Add a new route endpoint to routes.js.
 
 ```js
-app.get('/import', pirates.import);
+app.get('/api/import', pirates.import);
 ```
 
-Now to define the import method in our Pirates Controller `controllers/pirates.js`:
+Now define the import method in our Pirates Controller `controllers/pirates.js`:
 
 ```js
 exports.import = function (req, res) {
@@ -264,17 +292,19 @@ exports.import = function (req, res) {
 };
 ```
 
-This import method adds four documents from the JSON to a pirates collection. The Pirate model is referenced here to call its create method. create() takes one or more documents in JSON form, and a callback to run on completion. If an error occurs, Terminal will spit the error out, and the request will timeout in the browser. On success, 202 Accepted HTTP status code is returned to the browser. Restart your node server and visit this new endpoint to import data.
+This import method adds four documents from the JSON to a pirates collection. The Pirate model is referenced here to call its create method. create() takes one or more documents in JSON form, and a callback to run on completion. If an error occurs, Terminal will return the error and the request will timeout in the browser. On success, the 202 "Accepted" HTTP status code is returned to the browser. Restart your node server and visit this new endpoint to import data.
 
-`localhost:3001/import/`
+`localhost:3001/api/import/`
 
 ###Returning Data
 
-Now visit your pirates/ endpoint to view all the new pirates data. You'll see an array of JSON objects, each in the defined schema, with an additional generated unique private _id and internal __v version key. 
+Now visit your `/api/pirates` endpoint to view the new pirates data. You'll see an array of JSON objects, each in the defined schema, with an additional generated unique private _id and internal __v version key. 
 
 ####Find By id
 
-Recall our route for getting a pirate by its id app.get('/pirates/:id', pirates.findById). Here is the handler method:
+Recall our route for getting a pirate by its id app.get('/pirates/:id', pirates.findById). 
+
+Add the handler method:
 
 ```js
 exports.findById = function (req, res) {
@@ -285,9 +315,11 @@ exports.findById = function (req, res) {
 };
 ```
 
-This route's path uses a parameter pattern for id /pirates/:id which we can refer to in req. Pass this id to Mongoose to look up and return just one document. Restart the server. At your find all endpoint, copy one of the super long ids and paste it in at the end of the current url in the browser. Refresh your browser. You'll get a single JSON object for that one pirate's document.
+This route's path uses a parameter pattern for id /pirates/:id which we can refer to in `req`. Pass this id to Mongoose to look up and return just one document. Restart the server.
 
-e.g. `http://localhost:3001/pirates/581ca420f13de28c1776bbec`
+At your find all endpoint, copy one of the ids, paste it in at the end of the current url in the browser and refresh. You'll get a single JSON object for that one pirate's document.
+
+e.g. `http://localhost:3001/api/pirates/581ca420f13de28c1776bbec`
 
 ####Update
 
@@ -302,12 +334,12 @@ exports.update = function (req, res) {
         function (err, numberAffected) {
             if (err) return console.log(err);
             console.log('Updated %d pirates', numberAffected);
-            return res.send(202);
+            return res.sendStatus(202);
         });
 }
 ```
 
-Notice the updates variable storing the req.body. req.body is useful when you want to pass in larger chunks of data such as a single JSON object. Here we will pass in a JSON object following the schema of only the model's properties you want to change.
+Notice the updates variable storing the req.body. req.body is useful when you want to pass in larger chunks of data such as a single JSON object. Here we will pass in a JSON object (following the schema) of only the model's properties you want to change.
 
 The model's update() takes three parameters:
 
@@ -317,10 +349,12 @@ The model's update() takes three parameters:
 
 ###Curl
 
-PUT actions are not easy to test in the browser, so I used cURL in Terminal after restarting the server.
+PUT actions are not easy to test in the browser, so we used cURL in Terminal after restarting the server.
+
+We will need to construct this line using ids from the pirates listing:
 
 ```
-$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/pirates/581ca420f13de28c1776bbec
+$ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/api/pirates/581ca420f13de28c1776bbec
 ```
 
 This sends a JSON Content-Type PUT request to our update endpoint. That JSON object is the request body, and the long hash at the end of the URL is the id of the pirate we want to update. Terminal will output a JSON object of the response to the cURL request and Updated 1 pirates from our callback function.
