@@ -442,7 +442,7 @@ Add a static directory for our assets to server.js
 
 `app.use(express.static('static'))`
 
-Create css, js, and img folders in static. 
+Create css, js, and img folders in static or reuse the assets material.
 
 Populate the js folder with app.js:
 
@@ -517,7 +517,7 @@ angular.module('pirateApp', [])
 	<ul>
 		<li ng-repeat="pirate in pirates">
 			{{ pirate.name }}
-			<span ng-click="deletePirate($index)">X</span>
+			<span>X</span>
 		</li>
 	</ul>
 </body>
@@ -525,28 +525,20 @@ angular.module('pirateApp', [])
 
 Reuse the css from assets.
 
+
+As a starting point reuse the array script:
+
 ```
 $scope.deletePirate = function(index) {
 	$scope.pirates.splice(index, 1);
 }
 ```
-
-
-```
-<ul>
-	<li  ng-repeat="pirate in pirates">
-		{{ pirate.name }}
-		<span ng-click="deletePirate($index)">X</span>
-	</li>
-</ul>
-```
-
-This works but may be less than optimal:
+Wire up the deletePirate function:
 
 ```
 <ul>
 	<li ng-repeat="pirate in pirates">
-		{{ pirate.name }}
+		{{ pirate.name }} | {{ pirate._id }}
 		<span ng-click="deletePirate(pirate._id)">X</span>
 	</li>
 </ul>
@@ -554,47 +546,30 @@ This works but may be less than optimal:
 
 ```
 $scope.deletePirate = function(pid) {
-	$http.delete('/pirates/' + pid);
+	$http.delete('/api/pirates/' + pid);
 }
 ```
 
 But this has no effect on $scope
 
 ```
-$scope.deletePirate = function(index, pid) {
-		$http.delete('/pirates/' + pid)
-		.success(function(){
-			$scope.pirates.splice(index, 1);
-		})
-	
-	}
+$scope.deletePirate = function (index, pid) {
+    console.log(pid);
+    $http.delete('/api/pirates/' + pid)
+    .success(function(){
+        $scope.pirates.splice(index, 1);
+    })
+}
 ```
 
-
-###Angular Routes vs Express Routes
-
-```js
-app.get('/*', function (req, res, next) {
-	res.sendfile('./layouts/index.html')
-})
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<ul>
+	<li ng-repeat="pirate in pirates">
+		{{ pirate.name }} {{ pirate._id }}
+		<span ng-click="deletePirate($index, pirate._id)">X</span>
+	</li>
+</ul>
+```
 
 
 
@@ -612,8 +587,6 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
 ```
-
-`https://expressjs.com/en/starter/static-files.html`
 
 `https://expressjs.com/en/starter/static-files.html`
 
@@ -641,7 +614,8 @@ app.controller('graphController', function($scope){
 ```
 
 Add some basic css
-```csshtml {
+```css
+html {
   box-sizing: border-box;
   background-image: -webkit-linear-gradient(top, #023e54, #10aac0);
   min-height: 100%;
