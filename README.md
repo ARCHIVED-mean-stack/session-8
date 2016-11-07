@@ -15,7 +15,7 @@ console.log('Server running at http://localhost:3001/');
 
 `$ npm init`
 
-`$ npm install express`
+`$ npm install --save express`
 
 Edit server.js for express:
 
@@ -30,8 +30,6 @@ app.get('/', function(req, res) {
 app.listen(3001);
 console.log('Server running at http://localhost:3001/');
 ```
-
-`npm install --save-dev nodemon`
 
 REST API
 * A URL route schema to map requests to app actions
@@ -142,6 +140,8 @@ console.log("Lootin\' on port 3001...");
 ```
 
 Navigate to `localhost:3001/pirates`
+
+`npm install --save-dev nodemon`
 
 ###Mongo
 
