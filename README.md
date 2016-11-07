@@ -351,7 +351,7 @@ The model's update() takes three parameters:
 
 PUT actions are not easy to test in the browser, so we used cURL in Terminal after restarting the server.
 
-We will need to construct this line using ids from the pirates listing:
+We will need to construct this line using ids from the pirates listing and test it in a new Terminal tab:
 
 ```
 $ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/api/pirates/581ca420f13de28c1776bbec
@@ -360,6 +360,8 @@ $ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler
 This sends a JSON Content-Type PUT request to our update endpoint. That JSON object is the request body, and the long hash at the end of the URL is the id of the pirate we want to update. Terminal will output a JSON object of the response to the cURL request and Updated 1 pirates from our callback function.
 
 Visit this same URL from the cURL request in the browser to see the changes.
+
+###Postman
 
 ####Add
 
@@ -377,10 +379,11 @@ exports.add = function (req, res) {
 Restart the server. Use cURL to POST to the add endpoint with the full Pirate JSON as the request body.
 
 ```
-$ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "Jean Lafitte", "vessel": "Barataria Bay", "weapon":"curses"}' http://localhost:3001/pirates
+$ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "Jean Lafitte", "vessel": "Barataria Bay", "weapon":"curses"}' http://localhost:3001/api/pirates
 ```
 
 Refresh `http://localhost:3001/pirates` to see the new entry at the end.
+
 
 ####Delete
 
@@ -398,7 +401,7 @@ exports.delete = function (req, res) {
 Restart, and check it out with:
 
 ```
-$ curl -i -X DELETE http://localhost:3001/pirates/535feac1cc539500000a209f
+$ curl -i -X DELETE http://localhost:3001/pirates/5820d3584dc4674967d091e6
 ```
 
 
@@ -408,23 +411,22 @@ Add a layouts directory and into it `index.html`:
 
 ```html
 <!DOCTYPE html>
-<html ng-app='pirateApp'>
+<html>
 
 <head>
 	<title>AngularJS Pirates</title>
-	<link rel="stylesheet" href="css/styles.css">
 	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-animate.js"></script>
-	<script src="js/app.js"></script>
 </head>
 
 <body>
 	<h1>test</h1>
-	<img src="img/temp.png">
 </body>
 </html>
 ```
+
+Note - this page is unavaiable (even if it is in the root directory).
 
 Add this route to routes.js:
 
@@ -433,6 +435,8 @@ app.get('/', function(req, res) {
     res.sendfile('./layouts/index.html')
 })
 ```
+
+Now we can access the page at /
 
 Add a static directory for our assets to server.js
 
@@ -455,7 +459,26 @@ The css folder with styles.css:
 }
 ```
 
-And add a randon temp.png image to the img folder.
+Add a random temp.png image to the img folder.
+
+```html
+<!DOCTYPE html>
+<html ng-app='pirateApp'>
+
+<head>
+	<title>AngularJS Pirates</title>
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-animate.js"></script>
+	<script src="js/app.js"></script>
+</head>
+
+<body>
+	<h1>test</h1>
+	<img src="img/temp.png">
+</body>
+</html>
 
 
 ```
@@ -470,7 +493,7 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 
 ```html
 <body ng-controller="Hello">
-    <h1>Pirates</h1>
+    <h1>Testing</h1>
     <p>The ID is {{greeting.id}}</p>
     <p>The content is {{greeting.content}}</p>
 </body>
@@ -479,7 +502,7 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 ```js
 angular.module('pirateApp', [])
     .controller('PirateAppController', function ($scope, $http) {
-        $http.get('/pirates').
+        $http.get('/api/pirates').
             then(function (response) {
                 $scope.pirates = response.data;
                 console.log($scope.pirates);
@@ -500,6 +523,7 @@ angular.module('pirateApp', [])
 </body>
 ```
 
+Reuse the css from assets.
 
 ```
 $scope.deletePirate = function(index) {
@@ -839,6 +863,11 @@ body {
 ##Reading
 
 Dickey - Write Modern Web Apps with the MEAN Stack: Mongo, Express, AngularJS and Node.js, chapter 5. Please attempt to implement his sample app on your computer. Here's his [Github repo with sample code](https://github.com/dickeyxxx/mean-sample). Be sure to look at the branches (they correspond to chapter numbers) and don't forget to run `sudo npm install` when running the sample code.
+
+
+##Notes
+
+https://www.mongodb.com/blog/post/building-your-first-application-mongodb-creating-rest-api-using-mean-stack-part-1
 
 
 
