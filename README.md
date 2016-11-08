@@ -330,7 +330,7 @@ exports.update = function (req, res) {
             console.log('Updated %d pirates', numberAffected);
             return res.sendStatus(202);
         });
-}
+};
 ```
 
 Notice the updates variable storing the req.body. req.body is useful when you want to pass in larger chunks of data such as a single JSON object. Here we will pass in a JSON object (following the schema) of only the model's properties you want to change.
@@ -343,9 +343,9 @@ The model's update() takes three parameters:
 
 ###Curl
 
-PUT actions are not easy to test in the browser, so we used cURL in Terminal after restarting the server.
+PUT actions are not easy to test in the browser, so we use cURL in Terminal after restarting the server.
 
-We will need to construct this line using ids from the pirates listing and test it in a new Terminal tab:
+We will need to construct this line using ids from the pirates listing and test it in a new Terminal tab. Edit the URL to reflect both the port and id of the target pirate:
 
 ```
 $ curl -i -X PUT -H 'Content-Type: application/json' -d '{"vessel": "HMS Brawler"}' http://localhost:3001/api/pirates/581ca420f13de28c1776bbec
@@ -356,6 +356,14 @@ This sends a JSON Content-Type PUT request to our update endpoint. That JSON obj
 Visit this same URL from the cURL request in the browser to see the changes.
 
 ###Postman
+
+Since modelling endpoints is a common task and is rendered more difficult than it needs to be by the opaqueness of the PUT http verb most people use a utility such as [Postman](https://www.getpostman.com/). 
+
+Use the Chrome app to run through the process of editing a pirate above.
+
+Remember to set the body to `raw` and the `text` header to application/json
+
+![Image of chart](https://github.com/mean-fall-2016/session-8/blob/master/postman.png)
 
 ####Add
 
