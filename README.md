@@ -641,7 +641,7 @@ Add some basic css
 
 ```css
 html {
-  background-image: -webkit-linear-gradient(top, #023e54, #10aac0);
+  background-image: linear-gradient(to bottom, #023e54, #10aac0);
   min-height: 100%;
   height: auto;
   margin: 0; 
