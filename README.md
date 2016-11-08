@@ -575,6 +575,8 @@ $scope.deletePirate = function (index, pid) {
 
 ##Visualisation
 
+![Image of chart](https://github.com/mean-fall-2016/session-7/blob/master/viz.png)
+
 ```
 var express = require('express')
 var app = express()
@@ -588,10 +590,23 @@ app.listen(3000, function () {
 })
 ```
 
-`https://expressjs.com/en/starter/static-files.html`
+The homepage index.html will not load. 
 
+```
+var express = require('express')
+var app = express()
 
-![Image of chart](https://github.com/mean-fall-2016/session-7/blob/master/viz.png)
+var path = require('path');
+
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.listen(3008, function () {
+  console.log('Example app listening on port 3008!')
+})
+```
+
 
 ```html
 <div ng-app="graphApp" ng-controller="graphController">
@@ -613,10 +628,19 @@ app.controller('graphController', function($scope){
 });
 ```
 
+app.js will not be read.
+
+`https://expressjs.com/en/starter/static-files.html`
+
+```
+app.use(express.static('css'));
+app.use(express.static('js'));
+```
+
 Add some basic css
+
 ```css
 html {
-  box-sizing: border-box;
   background-image: -webkit-linear-gradient(top, #023e54, #10aac0);
   min-height: 100%;
   height: auto;
@@ -626,7 +650,6 @@ html {
 body {
   font-family: Helvetica, Arial, sans-serif;
   color: #fff;
-  text-align: center;
   margin: 0;
 }
 .chart { 
@@ -718,6 +741,8 @@ Take the data from data.js and add it to the controller:
 Add the bar data to the view:
 
 ```html
+<div class="chart" style="width:{{width}}px; height:{{height}}px;">
+
 <div ng-repeat="bar in data" class="bar" style="height:{{bar.value}}px; width:{{width / data.length - 8 }}px; left:{{$index / data.length * width }}px">
 	<span class="value">{{bar.value}}</span>
 	<span class="label">{{bar.label}}</span>
@@ -725,7 +750,8 @@ Add the bar data to the view:
 ```
 
 Add display for this to the css
-```css.bar {
+```css
+.bar {
 	background: rgba(146, 84, 164, 0.8);
 	position: absolute;
 	bottom: 0;
@@ -736,6 +762,7 @@ Add display for this to the css
 .value {
 	display: inline-block;
 	margin-top: 10px;
+    	text-align: center;
 }
 .label {
 	position: absolute;
