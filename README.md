@@ -6,7 +6,7 @@ In a new rest-api directory:
 
 `$ npm install --save express`
 
-Edit server.js for express:
+Create server.js for express:
 
 ```
 var express = require('express');
