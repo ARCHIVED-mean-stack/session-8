@@ -576,6 +576,7 @@ $scope.deletePirate = function (index, pid) {
 
 ##Homework
 - create a form for adding a pirate and create a controller that works to create a new pirate
+- send me a link to the github repo
 
 
 ##Reading
