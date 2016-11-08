@@ -102,13 +102,15 @@ module.exports = function (app) {
 }
 ```
 
-All the main elements of a REST application - GET, POST, PUT, DELETE - http actions are accounted for here. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly - prefixing them with `api/` in order to differentiate them from other routes we may create within Angular.
+Note: `module.exports` is the object that's returned as the result of a require call.
+
+All the main elements of a [REST application](http://www.restapitutorial.com/lessons/httpmethods.html) - GET, POST, PUT, DELETE - http actions are accounted for here. We've modeled our URL routes off of REST API conventions, and named our handling methods clearly - prefixing them with `api/` in order to differentiate them from other routes we may create within Angular.
 
 Note the require statement. We'll create a pirates controller and placed all our Request event handling methods inside the it. 
 
 ###Controllers
 
-Create a folder called controllers inside /app. 
+Create a folder called controllers at the top level. 
 
 Create a new file inside of that called pirates.js. We'll add each request handling method for pirates data to this file one by one. For now add these placeholders to pirates.js so we can restart the server without errors:
 
@@ -120,7 +122,7 @@ exports.update = function () { };
 exports.delete = function () { };
 ```
 
-Update findAll's definition' to the function below:
+Update findAll's definition in the controllers:
 
 ```js
 exports.findAll = function(req, res){
@@ -140,22 +142,23 @@ var express = require('express');
 ...
 require('./routes')(app);
 
-app.listen(3001);
-console.log("Lootin\' on port 3001...");
+app.listen...
 ```
 
-Navigate to `localhost:3001/pirates`
+Navigate to `localhost:3001/api/pirates`
 
 
 ###Mongo
 
-[Install](http://docs.mongodb.org/manual/installation/) Mongodb.
+[Download and install](https://www.mongodb.com/download-center) Mongodb. 
 
-Run mongod in another Terminal tab if it's not running already.
+For [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+
+Run `mongod` in another Terminal tab if it's not running already.
 
 ###Mongoose.js
 
-A [Mongo Driver](http://mongoosejs.com).
+A [Mongo Driver](http://mongoosejs.com) to model your application data.
 
 Use NPM to install this dependency and update your package.json file.
 
@@ -226,13 +229,15 @@ var PirateSchema = new Schema({
 mongoose.model('Pirate', PirateSchema);
 ```
 
- This schema makes sure we're getting and setting well-formed data to and from the Mongo collection. Our schema has three String properties which define a Pirate object. 
+This schema makes sure we're getting and setting well-formed data to and from the Mongo collection. Our schema has three String properties which define a Pirate object. 
  
- The last line creates the Pirate model object, with built in Mongo interfacing methods. We'll refer to this Pirate object in other files.
+The last line creates the Pirate model object, with built in Mongo interfacing methods. We'll refer to this Pirate object in other files.
+ 
+Ensure that `require('./models/pirate');` is in server.js
 
 Update controllers/pirates.js to require Mongoose, so we can create an instance of our Pirate model to work with. 
 
-Update findAll() to query Mongo with the find() data model method.
+And update findAll() to query Mongo with the find() data model method.
 
 ```js
 var mongoose = require('mongoose'),
