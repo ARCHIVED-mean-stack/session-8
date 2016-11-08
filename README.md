@@ -574,6 +574,21 @@ $scope.deletePirate = function (index, pid) {
 ```
 
 
+##Homework
+- create a form for adding a pirate and create a controller that works to create a new pirate
+
+
+##Reading
+
+Dickey - Write Modern Web Apps with the MEAN Stack: Mongo, Express, AngularJS and Node.js, chapter 6. Please attempt to implement his sample app on your computer. Here's his [Github repo with sample code](https://github.com/dickeyxxx/mean-sample). Be sure to look at the branches (they correspond to chapter numbers) and don't forget to run `sudo npm install` when running the sample code.
+
+
+##Notes
+
+https://www.mongodb.com/blog/post/building-your-first-application-mongodb-creating-rest-api-using-mean-stack-part-1
+
+
+
 
 ##Visualisation
 
@@ -858,19 +873,7 @@ body {
 ```
 
 
-##Homework
 
-
-
-
-##Reading
-
-Dickey - Write Modern Web Apps with the MEAN Stack: Mongo, Express, AngularJS and Node.js, chapter 5. Please attempt to implement his sample app on your computer. Here's his [Github repo with sample code](https://github.com/dickeyxxx/mean-sample). Be sure to look at the branches (they correspond to chapter numbers) and don't forget to run `sudo npm install` when running the sample code.
-
-
-##Notes
-
-https://www.mongodb.com/blog/post/building-your-first-application-mongodb-creating-rest-api-using-mean-stack-part-1
 
 
 
