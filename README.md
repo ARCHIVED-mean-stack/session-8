@@ -840,7 +840,7 @@ body {
 	position: absolute;
 	bottom: 0;
 }
-.bar:nth-of-type(even) {
+.bar:nth-child(even) {
 	background: rgba(188, 77, 61, 0.8);
 }
 .value {
