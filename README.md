@@ -396,7 +396,7 @@ Use the Chrome app to run through the process of editing a pirate above.
 
 Remember to set the body to `raw` and the `text` header to application/json
 
-![Image of chart](https://github.com/mean-fall-2016/session-8/blob/master/postman.png)
+![Image of chart](https://github.com/mean-fall-2016/session-8/blob/master/assets/img/postman.png)
 
 ####Add
 
