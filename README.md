@@ -4,7 +4,30 @@
 
 - run through the steps up to the creation and testing of the update function
 - use the update function to sucessfully update one of the pirates
-- Note: [here is a repo](https://github.com/DannyBoyNYC/mean-session-8-current) reflecting where we stood at the end of class 8.
+- Note: [here is a repo](https://github.com/DannyBoyNYC/mean-session-8-current) reflecting where we stood at the end of class 8. The difficulty we were experiencing updating a pirate with new data was due to the line `app.use(bodyParser.json())` occuring after the require statements. I have fixed this in the repo and documented it below.
+
+```
+var express = require('express');
+var app = express();
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var mongoUri = 'mongodb://localhost/rest-apis';
+var db = mongoose.connection;
+mongoose.connect(mongoUri);
+
+// this line needs to occur prior to the require lines
+app.use(bodyParser.json());
+
+db.on('error', function () {
+    throw new Error('unable to connect at' + mongoUri);
+})
+
+require('./models/pirate');
+require('./routes')(app);
+
+app.listen(3004);
+console.log('port 3004');
+```
 
 ---
 
