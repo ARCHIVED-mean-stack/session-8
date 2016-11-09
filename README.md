@@ -443,6 +443,7 @@ Restart, and check it out with:
 $ curl -i -X DELETE http://localhost:3001/pirates/5820d3584dc4674967d091e6
 ```
 
+Create and test a delete Pirate action in Postman.
 
 ##Building a Front End for Our API
 
@@ -457,6 +458,7 @@ Add a layouts directory and into it `index.html`:
 	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
 	<script src="https://code.angularjs.org/1.5.8/angular-animate.js"></script>
+	<script src="js/app.js"></script>
 </head>
 
 <body>
@@ -467,7 +469,7 @@ Add a layouts directory and into it `index.html`:
 
 Note - this page is unavaiable (even if it is in the root directory).
 
-Add this route to routes.js:
+Add this route to server.js:
 
 ```js
 app.get('/', function(req, res) {
@@ -475,30 +477,31 @@ app.get('/', function(req, res) {
 })
 ```
 
-Now we can access the page at /
+Note - `express deprecated res.sendfile: Use res.sendFile instead`
 
-Add a static directory for our assets to server.js
+```
+var path = require('path');
 
-`app.use(express.static('static'))`
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/layouts/index.html'));
+});
+```
 
 Create css, js, and img folders in static or reuse the assets material.
 
 Populate the js folder with app.js:
 
 ```js
-console.log('made it');
 angular.module('pirateApp', []);
 ```
 
-The css folder with styles.css:
+Now we can access the page at localhost://300X however the we need to configure a static assets directory.
 
-```
-* {
-    color: red;
-}
-```
+Add a static directory for our assets to server.js
 
-Add a random temp.png image to the img folder.
+`app.use(express.static('static'))`
+
+Add a ngApp:
 
 ```html
 <!DOCTYPE html>
@@ -515,10 +518,11 @@ Add a random temp.png image to the img folder.
 
 <body>
 	<h1>test</h1>
-	<img src="img/temp.png">
 </body>
 </html>
+```
 
+Let's run a simple test by pulling in data from another API.
 
 ```
 angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
@@ -529,6 +533,7 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
 });
 ```
 
+Add to index.html:
 
 ```html
 <body ng-controller="Hello">
@@ -537,6 +542,8 @@ angular.module('pirateApp', []).controller('Hello', function ($scope, $http) {
     <p>The content is {{greeting.content}}</p>
 </body>
 ```
+
+Now let's use our own:
 
 ```js
 angular.module('pirateApp', [])
@@ -562,16 +569,16 @@ angular.module('pirateApp', [])
 </body>
 ```
 
-Reuse the css from assets.
+###Deleting a Pirate
 
-
-As a starting point reuse the array script:
+As a starting point reuse the array script. Recall the script from a previous lesson:
 
 ```
 $scope.deletePirate = function(index) {
 	$scope.pirates.splice(index, 1);
 }
 ```
+
 Wire up the deletePirate function:
 
 ```
