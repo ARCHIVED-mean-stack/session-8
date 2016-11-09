@@ -1,5 +1,7 @@
 #MEAN Session Eight
 
+Note - [here is the state of the repo](https://github.com/DannyBoyNYC/mean-session-8-current) at the end of class 8.
+
 In a new rest-api directory:
 
 `$ npm init`
