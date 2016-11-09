@@ -154,7 +154,7 @@ Navigate to `localhost:3001/api/pirates`
 
 For [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
 
-Run `mongod` in another Terminal tab if it's not running already.
+Create a `/data/db/` directory and run `mongod` (in another Terminal tab) if it's not running already.
 
 ###Mongoose.js
 
