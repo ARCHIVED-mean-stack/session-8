@@ -6,7 +6,7 @@
 - use the update function to sucessfully update one of the pirates
 - Note: [here is a repo](https://github.com/DannyBoyNYC/mean-session-8-current) reflecting where we stood at the end of class 8.
 
-=============
+---
 
 In a new rest-api directory:
 
