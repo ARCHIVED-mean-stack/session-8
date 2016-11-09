@@ -411,11 +411,15 @@ exports.add = function (req, res) {
 }
 ```
 
-Restart the server. Use cURL to POST to the add endpoint with the full Pirate JSON as the request body.
+Restart the server. Use cURL to POST to the add endpoint with the full Pirate JSON as the request body (making sure to check the URL port and path).
 
 ```
 $ curl -i -X POST -H 'Content-Type: application/json' -d '{"name": "Jean Lafitte", "vessel": "Barataria Bay", "weapon":"curses"}' http://localhost:3001/api/pirates
 ```
+
+We will also create a new Pirate in Postman.
+
+![Image of chart](https://github.com/mean-fall-2016/session-8/blob/master/assets/img/postman2.png)
 
 Refresh `http://localhost:3001/pirates` to see the new entry at the end.
 
