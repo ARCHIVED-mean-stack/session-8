@@ -194,9 +194,6 @@ var bodyParser = require('body-parser')
 var mongoUri = 'mongodb://localhost/rest-api';
 var db = mongoose.connection;
 
-//require('./models/pirate');
-require('./routes')(app);
-
 mongoose.connect(mongoUri);
 
 db.on('error', function () {
@@ -204,6 +201,9 @@ db.on('error', function () {
 });
 
 app.use(bodyParser.json())
+
+//require('./models/pirate');
+require('./routes')(app);
 
 app.listen(3001);
 console.log('Listening on port 3001...');
